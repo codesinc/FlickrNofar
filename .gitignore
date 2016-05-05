@@ -18,6 +18,9 @@ xcuserdata/
 ## Other
 *.moved-aside
 *.xcuserstate
+*.xcscheme
+*.plist
+*.storyboard
 
 ## Obj-C/Swift specific
 *.hmap
