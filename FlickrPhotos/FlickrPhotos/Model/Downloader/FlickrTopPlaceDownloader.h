@@ -5,10 +5,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class FlickrPlacePhotoMetadata;
+@class FlickrPlaceMetadata;
+
+/// Mapping of countries to corresponding ordered collections of Flickr place metadata.
+typedef NSDictionary<NSString *, NSArray<FlickrPlaceMetadata *> *> FlickrPlaceMetadataDictionary;
+
+/// Mutable mapping of countries to corresponding ordered collections of Flickr place metadata.
+typedef NSMutableDictionary<NSString *,
+                            NSMutableArray<FlickrPlaceMetadata *> *> MutableFlickrPlaceMetadataDictionary;
 
 /// Completion block that executes in the end of the top places list download.
-typedef void(^TopPlacesCompletionBlock)(NSArray<FlickrPlacePhotoMetadata *> *);
+/// Keys in dictionary represent country name and the values represent places.
+typedef void(^TopPlacesCompletionBlock)(FlickrPlaceMetadataDictionary *);
 
 /// Immutable object that represents a Flickr top places downloader.
 @interface FlickrTopPlaceDownloader : NSObject

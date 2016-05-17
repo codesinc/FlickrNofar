@@ -6,7 +6,7 @@
 #import "FlickrFetcher.h"
 #import "FlickrMetadataDownloader.h"
 #import "FlickrPhotoMetadata.h"
-#import "FlickrPlacePhotoMetadata.h"
+#import "FlickrPlaceMetadata.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,6 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation FlickrPhotoMetadataDownloader
 
+#pragma mark -
+#pragma mark Initialization
+#pragma mark -
+
 - (instancetype)init {
   if (self = [super init]) {
     self.downloader = [[FlickrMetadataDownloader alloc] init];
@@ -26,25 +30,27 @@ NS_ASSUME_NONNULL_BEGIN
   return self;
 }
 
-- (void)fetchPhotoMetadataFromPlaceMetadata:(FlickrPlacePhotoMetadata *)metadata
+- (void)fetchPhotoMetadataFromPlaceMetadata:(FlickrPlaceMetadata *)metadata
                    maxNumberOfPhotoMetadata:(int)maxNumberOfPhotoMetadata
                                  completion:(PhotoMetadataCompletionBlock)completion {
   assert(maxNumberOfPhotoMetadata > 0);
   CompletionBlock extractPhotoMetadata = ^(NSDictionary *data) {
-    NSArray<NSDictionary *> *photos = [data valueForKeyPath:FLICKR_RESULTS_PHOTOS];
-    if (!photos.count) {
-      NSLog(@"No photos available for this place");
+    NSArray<NSDictionary *> *photoMetadata = [data valueForKeyPath:FLICKR_RESULTS_PHOTOS];
+    if (!photoMetadata.count) {
+      NSLog(@"No photos available for this place.");
       return;
     }
-    
-    NSMutableArray<FlickrPhotoMetadata *> *photosMetadata =
-    [[NSMutableArray<FlickrPhotoMetadata *> alloc] initWithCapacity:photos.count];
-    for (NSDictionary *metadata in photos) {
-      NSURL *photoURL =
-          [FlickrFetcher URLforPhoto:metadata format:FlickrPhotoFormatLarge];
-      [photosMetadata addObject:[[FlickrPhotoMetadata alloc] initWithUrl:photoURL]];
+    NSMutableArray<FlickrPhotoMetadata *> *flickrMetadata =
+        [[NSMutableArray alloc] initWithCapacity:photoMetadata.count];
+    for (NSDictionary *data in photoMetadata) {
+      FlickrPhotoMetadata *photo =
+          [[FlickrPhotoMetadata alloc] initWithUrl:[FlickrFetcher URLforPhoto:data
+                                            format:FlickrPhotoFormatLarge]
+                                             title:[data valueForKeyPath:FLICKR_PHOTO_TITLE]
+                                       description:[data valueForKeyPath:FLICKR_PHOTO_DESCRIPTION]];
+      [flickrMetadata addObject:photo];
     }
-    completion([photosMetadata copy]);
+    completion([flickrMetadata copy]);
   };
   
   NSURL *photoMetadataURL = [FlickrFetcher URLforPhotosInPlace:metadata.placeId

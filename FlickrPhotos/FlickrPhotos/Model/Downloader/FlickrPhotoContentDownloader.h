@@ -17,8 +17,8 @@ typedef void(^PhotoCompletionBlock)(UIImage *);
 
 /// Retrieves the photo content from the given \c metadata.
 /// Upon completion, the given \c completion block is called.
-- (void)fetchPhotoContent:(FlickrPhotoMetadata *)metadata
-               completion:(PhotoCompletionBlock)completion;
+- (void)fetchImageFromMetaData:(FlickrPhotoMetadata *)metadata
+                    completion:(PhotoCompletionBlock)completion;
 
 @end
 
