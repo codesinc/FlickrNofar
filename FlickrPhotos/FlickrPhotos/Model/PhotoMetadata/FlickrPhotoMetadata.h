@@ -10,11 +10,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
-/// Initializes with the given \c url.
-- (instancetype)initWithUrl:(NSURL *)url NS_DESIGNATED_INITIALIZER;
+/// Initializes with a given \c url, \c title and \c description.
+- (instancetype)initWithUrl:(NSURL *)url
+                      title:(NSString *)title
+                description:(NSString *)description NS_DESIGNATED_INITIALIZER;
+
+/// Initializes with the given \c dictionary. The given \c dictionary must be a valid serialized
+/// representation of an object of this class. For example, it might have been created using
+/// the \c serializedRepresentation method.
+- (instancetype)initWithDictionary:(NSDictionary<NSString *,NSArray *>*)dictionary NS_DESIGNATED_INITIALIZER;
+
+/// Returns a serialized version of the instance.
+- (NSDictionary *)serializedRepresentation;
 
 /// URL of the image represented by this object.
 @property (strong, readonly, nonatomic) NSURL *url;
+
+/// Title of the image represented by this object.
+@property (strong, readonly, nonatomic) NSString *title;
+
+/// Description of an image represented by this object.
+@property (strong, readonly, nonatomic) NSString *photoDescription;
 
 @end
 
