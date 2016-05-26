@@ -5,20 +5,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class FlickrPhotoMetadata;
-
-/// Immutable object that represents a Flickr place metadata.
-@interface FlickrPlacePhotoMetadata : NSObject <Place>
+/// Immutable object that represents a Flickr place.
+@interface FlickrPlaceMetadata : NSObject<Place>
 
 - (instancetype)init NS_UNAVAILABLE;
 
-///Initializes with a given \c country, \c city, \c region and \c photos.
+/// Initializes with the given \c country, \c city and \c region.
 - (instancetype)initWithPlaceID:(id)placeId
                         country:(NSString *)country
                            city:(NSString *)city
                          region:(NSString *)region NS_DESIGNATED_INITIALIZER;
 
-/// Flickr place ID.
+/// Flickr place ID represented by this object.
 @property (strong, readonly, nonatomic) id placeId;
 
 @end
