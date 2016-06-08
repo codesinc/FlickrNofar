@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class FlickrPlacePhotoMetadata;
+@class FlickrPlaceMetadata;
 
 @class FlickrPhotoMetadata;
 
@@ -18,7 +18,7 @@ typedef void(^PhotoMetadataCompletionBlock)(NSArray<FlickrPhotoMetadata *> *);
 /// Retrieves \c NSDictionary photos content of a given place \c metadata.
 /// \c maxNumberOfPhotoMetadata limits the number of retrieved photo metadata.
 /// Upon completion, the given \c completion is called.
-- (void)fetchPhotoMetadataFromPlaceMetadata:(FlickrPlacePhotoMetadata *)metadata
+- (void)fetchPhotoMetadataFromPlaceMetadata:(FlickrPlaceMetadata *)metadata
                    maxNumberOfPhotoMetadata:(int)maxNumberOfPhotoMetadata
                                  completion:(PhotoMetadataCompletionBlock)completion;
 
